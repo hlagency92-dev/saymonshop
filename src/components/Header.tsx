@@ -7,12 +7,12 @@ const navItems = [
   {
     label: "Caméra",
     href: "#",
-    dropdown: ["Reflex DSLR", "Mirrorless", "Caméscope", "Action Cam"],
+    dropdown: ["Canon", "Nikon", "Sony"],
   },
   {
     label: "Objectifs",
     href: "#",
-    dropdown: ["Grand Angle", "Téléobjectif", "Macro", "Prime"],
+    dropdown: ["Canon", "Nikon", "Sony","Autre marque"],
   },
   { label: "Trépied & Stand", href: "#" },
   { label: "Sons & Audios", href: "#" },
@@ -34,11 +34,11 @@ export default function Header() {
               <Camera size={18} className="text-primary-foreground" />
             </div>
             <span className="text-xl font-bold tracking-widest text-foreground">
-              SAYMON<span className="text-primary">.</span>
+              SAYMON<span className="text-primary"></span>
             </span>
           </div>
 
-          {/* Desktop Nav */}
+          {/* Desktop Nav */} 
           <nav className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
               <div
@@ -73,11 +73,7 @@ export default function Header() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-2">
-            <button className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted transition-colors text-foreground-secondary hover:text-foreground">
-              <User size={18} />
-              <span className="text-sm font-medium">Mon Compte</span>
-            </button>
-
+            
             <button
               onClick={openCart}
               className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted transition-colors relative"
