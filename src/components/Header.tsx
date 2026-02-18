@@ -1,0 +1,130 @@
+import { useState } from "react";
+import { ShoppingCart, User, Menu, X, ChevronDown, Camera, Aperture, Mic, Layers } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+
+const navItems = [
+  { label: "Accueil", href: "#" },
+  {
+    label: "Caméra",
+    href: "#",
+    dropdown: ["Reflex DSLR", "Mirrorless", "Caméscope", "Action Cam"],
+  },
+  {
+    label: "Objectifs",
+    href: "#",
+    dropdown: ["Grand Angle", "Téléobjectif", "Macro", "Prime"],
+  },
+  { label: "Trépied & Stand", href: "#" },
+  { label: "Sons & Audios", href: "#" },
+  { label: "Stabilisateur", href: "#" },
+];
+
+export default function Header() {
+  const { totalItems, totalPrice, openCart } = useCart();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  return (
+    <header className="sticky top-0 z-40 bg-background border-b border-border">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+              <Camera size={18} className="text-primary-foreground" />
+            </div>
+            <span className="text-xl font-bold tracking-widest text-foreground">
+              SAYMON<span className="text-primary">.</span>
+            </span>
+          </div>
+
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-1">
+            {navItems.map((item) => (
+              <div
+                key={item.label}
+                className="relative group"
+                onMouseEnter={() => item.dropdown && setActiveDropdown(item.label)}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <a
+                  href={item.href}
+                  className="nav-link flex items-center gap-1 px-3 py-2 text-sm rounded-lg hover:bg-muted transition-colors"
+                >
+                  {item.label}
+                  {item.dropdown && <ChevronDown size={14} className="text-foreground-muted group-hover:text-primary transition-colors" />}
+                </a>
+                {item.dropdown && activeDropdown === item.label && (
+                  <div className="dropdown-menu-dark absolute top-full left-0 min-w-44 py-2 z-50 animate-fade-up">
+                    {item.dropdown.map((sub) => (
+                      <a
+                        key={sub}
+                        href="#"
+                        className="block px-4 py-2 text-sm text-foreground-secondary hover:text-primary hover:bg-muted transition-colors"
+                      >
+                        {sub}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </nav>
+
+          {/* Right Icons */}
+          <div className="flex items-center gap-2">
+            <button className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted transition-colors text-foreground-secondary hover:text-foreground">
+              <User size={18} />
+              <span className="text-sm font-medium">Mon Compte</span>
+            </button>
+
+            <button
+              onClick={openCart}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted transition-colors relative"
+            >
+              <div className="relative">
+                <ShoppingCart size={20} className="text-foreground" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold pulse-red">
+                    {totalItems}
+                  </span>
+                )}
+              </div>
+              {totalItems > 0 && (
+                <span className="hidden md:block text-sm font-semibold text-primary">
+                  {totalPrice.toLocaleString("fr-FR")} €
+                </span>
+              )}
+            </button>
+
+            {/* Mobile menu toggle */}
+            <button
+              className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors text-foreground"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="lg:hidden bg-background-secondary border-t border-border">
+          <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href="#"
+                className="block px-4 py-3 text-sm text-foreground-secondary hover:text-primary hover:bg-muted rounded-lg transition-colors font-medium"
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
