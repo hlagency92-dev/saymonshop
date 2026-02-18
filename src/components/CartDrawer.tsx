@@ -1,7 +1,9 @@
 import { X, Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 
 export default function CartDrawer() {
+  const navigate = useNavigate();
   const { items, isOpen, closeCart, removeFromCart, updateQuantity, totalItems, totalPrice } = useCart();
 
   return (
@@ -111,7 +113,10 @@ export default function CartDrawer() {
               </span>
             </div>
             <p className="text-xs text-foreground-muted">Livraison calculée à l'étape suivante</p>
-            <button className="btn-primary w-full py-3 text-base shadow-glow-red">
+            <button
+              onClick={() => { closeCart(); navigate("/checkout"); }}
+              className="btn-primary w-full py-3 text-base shadow-glow-red"
+            >
               Passer au Paiement →
             </button>
             <button

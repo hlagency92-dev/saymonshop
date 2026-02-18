@@ -1,4 +1,4 @@
-import { Camera, Instagram, Youtube, Twitter, Facebook, Mail, Phone, MapPin } from "lucide-react";
+import { Instagram, Youtube, Twitter, Facebook, Mail, Phone, MapPin } from "lucide-react";
 
 const footerLinks = {
   "Liens Rapides": ["Accueil", "Nouveautés", "Promotions", "Nos Marques", "Blog"],
@@ -42,12 +42,13 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-                <Camera size={18} className="text-primary-foreground" />
+              <div className="bg-white rounded-md p-1 shadow-sm">
+                <img
+                  src="/images/logosaymon.png"
+                  alt="Saymon"
+                  className="h-10 md:h-12 w-36 md:w-48 object-contain"
+                />
               </div>
-              <span className="text-xl font-bold tracking-widest text-foreground">
-                SAYMON<span className="text-primary">.</span>
-              </span>
             </div>
             <p className="text-foreground-muted text-sm leading-relaxed mb-6 max-w-xs">
               Votre partenaire premium pour le matériel photo & vidéo professionnel. Qualité garantie, livraison express, support expert.
