@@ -143,6 +143,10 @@
     @apply bg-background-secondary border border-border text-foreground placeholder:text-foreground-muted rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary transition-colors duration-200;
   }
 
+  .input-field {
+    @apply w-full bg-background-secondary border border-border text-foreground placeholder:text-foreground-muted rounded-lg px-4 py-2.5 focus:outline-none focus:border-primary transition-colors duration-200;
+  }
+
   .dropdown-menu-dark {
     @apply bg-background-secondary border border-border rounded-lg shadow-lg;
     box-shadow: 0 8px 32px rgba(0,0,0,0.6);
