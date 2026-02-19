@@ -1,4 +1,5 @@
-import { Heart, ShoppingCart, Star } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 
@@ -6,85 +7,83 @@ interface ProductCardProps {
   product: Product;
 }
 
+const placeholderImage = "https://via.placeholder.com/400x400/1a1a1a/666666?text=Photo";
+
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart, wishlist, toggleWishlist } = useCart();
   const isWishlisted = wishlist.includes(product.id);
 
+  const imgSrc = product.image.startsWith("/") ? product.image : product.image;
+  const priceFormatted = product.price.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const oldPriceFormatted = product.oldPrice
+    ? product.oldPrice.toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    : null;
+
   return (
-    <div className="card-product group relative flex flex-col bg-background-card border border-border hover:border-primary/40 transition-all duration-300">
-      {/* Badge */}
+    <div className="group relative flex flex-col bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-card-hover">
+      {/* Badge promo - coin supérieur gauche */}
       {product.badge && (
-        <span className="badge-promo">{product.badge}</span>
+        <span className="absolute top-0 left-0 z-10 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-br">
+          {product.badge}
+        </span>
       )}
 
-      {/* Wishlist button */}
-      <button
-        onClick={() => toggleWishlist(product.id)}
-        className={`absolute top-3 right-3 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-          isWishlisted
-            ? "bg-primary text-primary-foreground"
-            : "bg-background/80 text-foreground-muted hover:text-primary hover:bg-background"
-        } backdrop-blur-sm border border-border`}
-      >
-        <Heart size={14} fill={isWishlisted ? "currentColor" : "none"} />
-      </button>
-
-      {/* Image */}
-      <div className="relative overflow-hidden bg-background rounded-t-xl" style={{ height: "220px" }}>
+      {/* Image : clic → fiche produit */}
+      <Link to={`/product/${product.id}`} className="block relative overflow-hidden bg-muted" style={{ height: "240px" }}>
         <img
-          src={product.image}
+          src={imgSrc}
           alt={product.name}
-          className="product-image w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          onError={(e) => {
+            e.currentTarget.src = placeholderImage;
+          }}
         />
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500" />
-      </div>
+      </Link>
 
-      {/* Content */}
+      {/* Contenu */}
       <div className="flex flex-col flex-1 p-4 gap-3">
-        {/* Category */}
-        <p className="text-xs text-foreground-muted uppercase tracking-widest font-medium">
-          {product.brand} · {product.category}
+        {/* Marque / Catégorie */}
+        <p className="text-xs text-foreground-muted uppercase tracking-wide font-medium">
+          {product.brand}
         </p>
 
-        {/* Name */}
-        <h3 className="font-semibold text-foreground text-sm leading-snug line-clamp-2 min-h-[40px]">
-          {product.name}
-        </h3>
+        {/* Nom produit : clic → fiche produit */}
+        <Link to={`/product/${product.id}`} className="hover:text-primary transition-colors">
+          <h3 className="font-semibold text-foreground text-sm leading-snug line-clamp-2 min-h-[40px]">
+            {product.name}
+          </h3>
+        </Link>
 
-        {/* Rating */}
-        <div className="flex items-center gap-1.5">
-          <div className="flex">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                size={12}
-                className={i < Math.floor(product.rating) ? "text-primary fill-primary" : "text-border"}
-              />
-            ))}
-          </div>
-          <span className="text-xs text-foreground-muted">({product.reviews})</span>
-        </div>
+        {/* Wishlist - comme sur le screenshot */}
+        <button
+          type="button"
+          onClick={() => toggleWishlist(product.id)}
+          className="flex items-center gap-2 text-xs text-foreground-muted hover:text-primary transition-colors w-fit"
+        >
+          <Heart size={14} fill={isWishlisted ? "currentColor" : "none"} className={isWishlisted ? "text-primary" : ""} />
+          Ajouter à la liste de souhaits
+        </button>
 
-        {/* Price */}
-        <div className="flex items-baseline gap-2">
-          <span className="text-xl font-bold text-price">
-            {product.price.toLocaleString("fr-FR")} €
+        {/* Prix - prix actuel en rouge, ancien barré */}
+        <div className="flex items-baseline gap-2 flex-wrap">
+          <span className="text-lg font-bold text-primary">
+            {priceFormatted} DH
           </span>
-          {product.oldPrice && (
-            <span className="text-sm text-price-old line-through">
-              {product.oldPrice.toLocaleString("fr-FR")} €
+          {oldPriceFormatted && (
+            <span className="text-sm text-foreground-muted line-through">
+              {oldPriceFormatted} DH
             </span>
           )}
         </div>
 
-        {/* Add to cart button */}
+        {/* Bouton AJOUTER AU PANIER - contour noir, texte blanc (style screenshot) */}
         <button
+          type="button"
           onClick={() => addToCart(product)}
-          className="mt-auto btn-primary w-full flex items-center justify-center gap-2 group-hover:shadow-glow-red-sm"
+          className="mt-auto w-full py-2.5 rounded-lg border-2 border-foreground text-foreground font-semibold text-xs uppercase tracking-wide flex items-center justify-center gap-2 hover:bg-foreground hover:text-background transition-all duration-200"
         >
-          <ShoppingCart size={15} />
-          Ajouter au Panier
+          <ShoppingCart size={14} />
+          Ajouter au panier
         </button>
       </div>
     </div>

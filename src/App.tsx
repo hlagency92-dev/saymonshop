@@ -7,6 +7,7 @@ import { CartProvider } from "@/context/CartContext";
 import Index from "./pages/Index";
 import Checkout from "./pages/Checkout";
 import Catalog from "./pages/Catalog";
+import ProductDetail from "./pages/ProductDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
             <Route path="/catalog/:categorySlug" element={<Catalog />} />
             <Route path="/catalog/:categorySlug/:brandSlug" element={<Catalog />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
