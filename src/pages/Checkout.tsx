@@ -24,8 +24,12 @@ const Checkout = () => {
   const finalTotal = totalPrice + shipping
 
   if (items.length === 0 && step !== 'success') {
-    navigate('/')
-    return null
+    navigate('/', { replace: true })
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-foreground-muted">Redirection...</p>
+      </div>
+    )
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -47,7 +51,7 @@ const Checkout = () => {
 
   if (step === 'success') {
     return (
-      <div className="min-h-screen flex items-center justify-center py-16">
+      <div className="min-h-screen bg-background flex items-center justify-center py-16">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -88,35 +92,35 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen py-8">
+    <div className="min-h-screen bg-background py-8">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold mb-8">Finaliser la commande</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-8">Finaliser la commande</h1>
 
-          {/* Progress Steps */}
+          {/* Progress Steps - design: 1 Informations (rouge), 2 Paiement (gris) */}
           <div className="mb-8">
             <div className="flex items-center justify-center gap-4">
-              <div className={`flex items-center gap-2 ${step === 'info' ? 'text-primary' : 'text-gray-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
-                  step === 'info' ? 'border-primary bg-primary/10' : 'border-gray-600'
+              <div className={`flex items-center gap-2 ${step === 'info' ? 'text-primary' : 'text-foreground-muted'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 text-sm font-semibold ${
+                  step === 'info' ? 'border-primary bg-primary/10 text-primary' : 'border-border text-foreground-muted'
                 }`}>
                   1
                 </div>
-                <span className="hidden sm:inline font-semibold">Informations</span>
+                <span className="font-semibold">Informations</span>
               </div>
 
-              <div className="h-px w-16 bg-gray-700" />
+              <div className="h-px w-12 sm:w-16 bg-border" />
 
-              <div className={`flex items-center gap-2 ${step === 'payment' ? 'text-primary' : 'text-gray-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
-                  step === 'payment' ? 'border-primary bg-primary/10' : 'border-gray-600'
+              <div className={`flex items-center gap-2 ${step === 'payment' ? 'text-primary' : 'text-foreground-muted'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 text-sm font-semibold ${
+                  step === 'payment' ? 'border-primary bg-primary/10 text-primary' : 'border-border text-foreground-muted'
                 }`}>
                   2
                 </div>
-                <span className="hidden sm:inline font-semibold">Paiement</span>
+                <span className="font-semibold">Paiement</span>
               </div>
             </div>
           </div>
@@ -129,16 +133,16 @@ const Checkout = () => {
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="bg-card border border-border rounded-xl p-6 space-y-6"
+                    className="bg-card border border-border rounded-xl p-6 space-y-5"
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <MapPin className="w-6 h-6 text-primary" />
-                      <h2 className="text-xl font-bold">Informations de livraison</h2>
+                    <div className="flex items-center gap-3 mb-5">
+                      <MapPin className="w-6 h-6 text-primary flex-shrink-0" />
+                      <h2 className="text-xl font-bold text-foreground">Informations de livraison</h2>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold mb-2">
+                        <label className="block text-sm font-semibold mb-2 text-foreground">
                           Prénom *
                         </label>
                         <input
@@ -152,7 +156,7 @@ const Checkout = () => {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold mb-2">
+                        <label className="block text-sm font-semibold mb-2 text-foreground">
                           Nom *
                         </label>
                         <input
@@ -168,7 +172,7 @@ const Checkout = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold mb-2">
+                        <label className="block text-sm font-semibold mb-2 text-foreground">
                           Email *
                         </label>
                         <input
@@ -182,7 +186,7 @@ const Checkout = () => {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold mb-2">
+                        <label className="block text-sm font-semibold mb-2 text-foreground">
                           Téléphone *
                         </label>
                         <input
@@ -197,7 +201,7 @@ const Checkout = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold mb-2">
+                      <label className="block text-sm font-semibold mb-2 text-foreground">
                         Adresse *
                       </label>
                       <input
@@ -212,7 +216,7 @@ const Checkout = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold mb-2">
+                        <label className="block text-sm font-semibold mb-2 text-foreground">
                           Ville *
                         </label>
                         <input
@@ -226,7 +230,7 @@ const Checkout = () => {
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold mb-2">
+                        <label className="block text-sm font-semibold mb-2 text-foreground">
                           Code postal
                         </label>
                         <input
@@ -240,7 +244,7 @@ const Checkout = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold mb-2">
+                      <label className="block text-sm font-semibold mb-2 text-foreground">
                         Notes de commande (optionnel)
                       </label>
                       <textarea
@@ -253,7 +257,7 @@ const Checkout = () => {
                       />
                     </div>
 
-                    <button type="submit" className="w-full btn-primary">
+                    <button type="submit" className="w-full btn-primary py-3 text-base uppercase tracking-wide">
                       Continuer vers le paiement
                     </button>
                   </motion.div>
@@ -331,10 +335,10 @@ const Checkout = () => {
               </form>
             </div>
 
-            {/* Order Summary */}
+            {/* Order Summary - design: carte résumé, prix en rouge, Gratuite en vert, encadré livraison rouge */}
             <div className="lg:col-span-1">
               <div className="bg-card border border-border rounded-xl p-6 sticky top-24">
-                <h2 className="text-xl font-bold mb-6">Résumé de la commande</h2>
+                <h2 className="text-xl font-bold text-foreground mb-6">Résumé de la commande</h2>
 
                 <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
                   {items.map((item) => (
@@ -349,45 +353,45 @@ const Checkout = () => {
                           }}
                         />
                       </div>
-                      <div className="flex-grow">
-                        <p className="text-sm font-semibold line-clamp-2">{item.name}</p>
-                        <p className="text-xs text-gray-400">Quantité: {item.quantity}</p>
+                      <div className="flex-grow min-w-0">
+                        <p className="text-sm font-semibold text-foreground line-clamp-2">{item.name}</p>
+                        <p className="text-xs text-foreground-muted">Quantité {item.quantity}</p>
                         <p className="text-sm text-primary font-semibold">
-                          {(item.price * item.quantity).toFixed(2)} د.م
+                          {(item.price * item.quantity).toFixed(2)} DH
                         </p>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="border-t border-gray-700 pt-4 space-y-3">
-                  <div className="flex justify-between text-gray-300">
+                <div className="border-t border-border pt-4 space-y-3">
+                  <div className="flex justify-between text-foreground-secondary">
                     <span>Sous-total</span>
-                    <span>{totalPrice.toFixed(2)} د.م</span>
+                    <span>{totalPrice.toFixed(2)} DH</span>
                   </div>
 
-                  <div className="flex justify-between text-gray-300">
+                  <div className="flex justify-between text-foreground-secondary">
                     <span>Livraison</span>
                     <span>
                       {shipping === 0 ? (
                         <span className="text-green-500 font-semibold">Gratuite</span>
                       ) : (
-                        `${shipping.toFixed(2)} د.م`
+                        `${shipping.toFixed(2)} DH`
                       )}
                     </span>
                   </div>
 
-                  <div className="border-t border-gray-700 pt-3">
+                  <div className="border-t border-border pt-3">
                     <div className="flex justify-between items-center text-xl font-bold">
-                      <span>Total</span>
-                      <span className="text-primary">{finalTotal.toFixed(2)} د.م</span>
+                      <span className="text-foreground">Total</span>
+                      <span className="text-primary">{finalTotal.toFixed(2)} DH</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-6 flex items-start gap-3 p-3 bg-primary/10 border border-primary/30 rounded-lg">
+                <div className="mt-6 flex items-start gap-3 p-3 bg-primary/15 border border-primary rounded-lg">
                   <Truck className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-foreground">
                     Livraison estimée sous 3-5 jours ouvrables
                   </p>
                 </div>
