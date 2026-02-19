@@ -1,22 +1,24 @@
 import { useState } from "react";
-import { ShoppingCart, User, Menu, X, ChevronDown, Camera, Aperture, Mic, Layers } from "lucide-react";
+import { ShoppingCart, Menu, X, ChevronDown, Camera } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { Link } from "react-router-dom";
+import { slugify } from "@/lib/slug";
 
 const navItems = [
-  { label: "Accueil", href: "#" },
+  { label: "Accueil", href: "/" as const },
   {
     label: "Caméra",
-    href: "#",
+    category: "Caméra",
     dropdown: ["Canon", "Nikon", "Sony"],
   },
   {
     label: "Objectifs",
-    href: "#",
-    dropdown: ["Canon", "Nikon", "Sony","Autre marque"],
+    category: "Objectifs",
+    dropdown: ["Canon", "Nikon", "Sony", "Autre marque"],
   },
-  { label: "Trépied & Stand", href: "#" },
-  { label: "Sons & Audios", href: "#" },
-  { label: "Stabilisateur", href: "#" },
+  { label: "Trépied & Stand", category: "Trépied" },
+  { label: "Sons & Audios", category: "Son & Audio" },
+  { label: "Stabilisateur", category: "Stabilisateur" },
 ];
 
 export default function Header() {
@@ -30,12 +32,14 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-              <Camera size={18} className="text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold tracking-widest text-foreground">
-              SAYMON<span className="text-primary"></span>
-            </span>
+            <Link to="/" className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+                <Camera size={18} className="text-primary-foreground" />
+              </div>
+              <span className="text-xl font-bold tracking-widest text-foreground">
+                SAYMON<span className="text-primary"></span>
+              </span>
+            </Link>
           </div>
 
           {/* Desktop Nav */} 
@@ -47,23 +51,23 @@ export default function Header() {
                 onMouseEnter={() => item.dropdown && setActiveDropdown(item.label)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                <a
-                  href={item.href}
+                <Link
+                  to={item.href ?? `/catalog/${slugify(item.category ?? "")}`}
                   className="nav-link flex items-center gap-1 px-3 py-2 text-sm rounded-lg hover:bg-muted transition-colors"
                 >
                   {item.label}
                   {item.dropdown && <ChevronDown size={14} className="text-foreground-muted group-hover:text-primary transition-colors" />}
-                </a>
+                </Link>
                 {item.dropdown && activeDropdown === item.label && (
                   <div className="dropdown-menu-dark absolute top-full left-0 min-w-44 py-2 z-50 animate-fade-up">
                     {item.dropdown.map((sub) => (
-                      <a
+                      <Link
                         key={sub}
-                        href="#"
+                        to={`/catalog/${slugify(item.category ?? item.label)}/${slugify(sub)}`}
                         className="block px-4 py-2 text-sm text-foreground-secondary hover:text-primary hover:bg-muted transition-colors"
                       >
                         {sub}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 )}
@@ -109,14 +113,25 @@ export default function Header() {
         <div className="lg:hidden bg-background-secondary border-t border-border">
           <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
             {navItems.map((item) => (
-              <a
-                key={item.label}
-                href="#"
-                className="block px-4 py-3 text-sm text-foreground-secondary hover:text-primary hover:bg-muted rounded-lg transition-colors font-medium"
-                onClick={() => setMobileOpen(false)}
-              >
-                {item.label}
-              </a>
+              <div key={item.label} className="flex flex-col">
+                <Link
+                  to={item.href ?? `/catalog/${slugify(item.category ?? "")}`}
+                  className="block px-4 py-3 text-sm text-foreground-secondary hover:text-primary hover:bg-muted rounded-lg transition-colors font-medium"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                </Link>
+                {item.dropdown?.map((sub) => (
+                  <Link
+                    key={`${item.label}-${sub}`}
+                    to={`/catalog/${slugify(item.category ?? item.label)}/${slugify(sub)}`}
+                    className="block px-8 py-2 text-sm text-foreground-muted hover:text-primary hover:bg-muted rounded-lg transition-colors"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {sub}
+                  </Link>
+                ))}
+              </div>
             ))}
           </div>
         </div>

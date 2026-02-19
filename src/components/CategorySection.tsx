@@ -1,5 +1,7 @@
 import { categories } from "@/data/products";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { slugify } from "@/lib/slug";
 
 export default function CategorySection() {
   return (
@@ -17,9 +19,9 @@ export default function CategorySection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {categories.map((cat, idx) => (
-            <a
+            <Link
               key={cat.id}
-              href="#"
+              to={`/catalog/${slugify(cat.name)}`}
               className="relative rounded-xl overflow-hidden group cursor-pointer block"
               style={{ height: idx === 0 ? "380px" : "260px" }}
             >
@@ -49,7 +51,7 @@ export default function CategorySection() {
                   Explorer <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
       </div>
