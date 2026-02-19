@@ -3,6 +3,8 @@ import SearchBar from "@/components/SearchBar";
 import HeroSlider from "@/components/HeroSlider";
 import CategorySection from "@/components/CategorySection";
 import ProductGrid from "@/components/ProductGrid";
+import TopProductsSection from "@/components/TopProductsSection";
+import PartnersSection from "@/components/PartnersSection";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 
@@ -15,6 +17,8 @@ const Index = () => {
         <HeroSlider />
         <CategorySection />
         <ProductGrid />
+        <TopProductsSection />
+        <PartnersSection />
       </main>
       <Footer />
       <CartDrawer />
