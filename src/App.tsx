@@ -7,7 +7,11 @@ import { CartProvider } from "@/context/CartContext";
 import Index from "./pages/Index";
 import Checkout from "./pages/Checkout";
 import Catalog from "./pages/Catalog";
+<<<<<<< HEAD
 import ProductDetail from "./pages/ProductDetail";
+=======
+import StaticPage from "./pages/StaticPage";
+>>>>>>> 892f0aea2f93f51bbc1ca751ef63c2b19c43f72f
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +27,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/catalog/:categorySlug" element={<Catalog />} />
             <Route path="/catalog/:categorySlug/:brandSlug" element={<Catalog />} />
+            <Route path="/page/:pageSlug" element={<StaticPage />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
