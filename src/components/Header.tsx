@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { ShoppingCart, Menu, X, ChevronDown, Camera } from "lucide-react";
+import { ShoppingCart, Menu, X, ChevronDown } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { Link } from "react-router-dom";
 import { slugify } from "@/lib/slug";
+import logoSaymon from "@/assets/Partners/logosaymon.png";
 
 const navItems = [
   { label: "Accueil", href: "/" as const },
@@ -19,6 +20,7 @@ const navItems = [
   { label: "Trépied & Stand", category: "Trépied" },
   { label: "Sons & Audios", category: "Son & Audio" },
   { label: "Stabilisateur", category: "Stabilisateur" },
+  { label: "Contacts", href: "/page/contacts" as const },
 ];
 
 export default function Header() {
@@ -32,13 +34,13 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-                <Camera size={18} className="text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold tracking-widest text-foreground">
-                SAYMON<span className="text-primary"></span>
-              </span>
+            <Link to="/" className="flex items-center gap-3">
+              <img
+                src={logoSaymon}
+                alt="Saymon"
+                className="h-16 md:h-20 w-auto object-contain"
+                style={{ filter: "brightness(0) invert(1)" }}
+              />
             </Link>
           </div>
 

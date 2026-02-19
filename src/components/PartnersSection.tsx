@@ -6,6 +6,8 @@ function getPartners(): string[] {
   });
 
   return Object.entries(modules)
+    // Exclure le logo principal de Saymon du carrousel partenaires
+    .filter(([path]) => !path.toLowerCase().includes("logosaymon"))
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([, mod]) => mod.default);
 }

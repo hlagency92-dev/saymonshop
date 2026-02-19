@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import aboutImage from "@/assets/saymon-shop-1.png";
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
+import emailjs from "@emailjs/browser";
 
 const TITLES: Record<string, string> = {
   "a-propos-de-nous": "À Propos de Saymonshop",
@@ -81,9 +82,41 @@ export default function StaticPage() {
 
                 <form
                   className="space-y-4"
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
-                    alert("Merci ! Votre message a bien été envoyé (démo front uniquement).");
+
+                    const form = new FormData(e.currentTarget);
+                    const fullName = (form.get("fullName") as string) ?? "";
+                    const email = (form.get("email") as string) ?? "";
+                    const phone = (form.get("phone") as string) ?? "";
+                    const subject =
+                      ((form.get("subject") as string) ?? "").trim() ||
+                      `Nouveau message de ${fullName || "client"}`;
+                    const message = (form.get("message") as string) ?? "";
+
+                    try {
+                      await emailjs.send(
+                        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+                        {
+                          fullName,
+                          email,
+                          phone,
+                          subject,
+                          message,
+                          to_email: "hlagency92@gmail.com",
+                        },
+                        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+                      );
+
+                      alert("Merci ! Votre message a bien été envoyé.");
+                      e.currentTarget.reset();
+                    } catch (error) {
+                      console.error("EmailJS error", error);
+                      alert(
+                        "Une erreur est survenue lors de l’envoi du message. Veuillez réessayer plus tard.",
+                      );
+                    }
                   }}
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -93,6 +126,7 @@ export default function StaticPage() {
                       </label>
                       <input
                         type="text"
+                        name="fullName"
                         required
                         className="w-full rounded-lg border border-border bg-background-secondary px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
                       />
@@ -103,6 +137,7 @@ export default function StaticPage() {
                       </label>
                       <input
                         type="email"
+                        name="email"
                         required
                         className="w-full rounded-lg border border-border bg-background-secondary px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
                       />
@@ -115,6 +150,7 @@ export default function StaticPage() {
                       </label>
                       <input
                         type="tel"
+                        name="phone"
                         className="w-full rounded-lg border border-border bg-background-secondary px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
                       />
                     </div>
@@ -124,6 +160,7 @@ export default function StaticPage() {
                       </label>
                       <input
                         type="text"
+                        name="subject"
                         required
                         className="w-full rounded-lg border border-border bg-background-secondary px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary"
                       />
@@ -135,6 +172,7 @@ export default function StaticPage() {
                     </label>
                     <textarea
                       required
+                      name="message"
                       rows={5}
                       className="w-full rounded-lg border border-border bg-background-secondary px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary resize-none"
                     />
