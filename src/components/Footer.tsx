@@ -95,7 +95,7 @@ export default function Footer() {
               <img
                 src={logoSaymon}
                 alt="Saymon"
-                className="h-10 md:h-12 w-40 object-contain"
+                className="h-30 md:h-30 w-40 object-contain"
                 style={{ filter: "brightness(0) invert(1)" }}
               />
             </Link>
@@ -144,8 +144,20 @@ export default function Footer() {
             </div>
           ))}
 
+          {/* Working hours */}
+          <div>
+            <h4 className="font-bold text-sm uppercase tracking-widest mb-4">
+              Horaire de travail
+            </h4>
+            <div className="space-y-2 text-sm text-foreground-muted">
+              <p className="text-sm text-foreground-muted">Saymonshop</p>
+              <p>Lundi - Samedi</p>
+              <p>10H30 - 19H00</p>
+            </div>
+          </div>
+
           {/* Map */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <h4 className="font-bold text-sm uppercase tracking-widest mb-4">
               Notre Localisation
             </h4>
@@ -153,7 +165,7 @@ export default function Footer() {
             <div className="rounded-xl overflow-hidden shadow-md border border-border">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3403630.4333783914!2d-7.633129!3d33.58304!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xda7cd660d0fee45%3A0x39cfee7144254ff3!2sSaymon%20Shop!5e0!3m2!1sfr!2sus!4v1771497739588!5m2!1sfr!2sus"
-                className="w-full h-48"
+                className="w-full h-72"
                 style={{ border: 0 }}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
